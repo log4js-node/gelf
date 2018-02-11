@@ -1,0 +1,94 @@
+{
+  "name": "@log4js-node/gelf",
+  "version": "0.0.1",
+  "description": "GELF Appender for log4js-node",
+  "homepage": "https://log4js-node.github.io/log4js-node/",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "keywords": [
+    "logging",
+    "log",
+    "log4j",
+    "node",
+    "gelf"
+  ],
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
+  "author": "Gareth Jones <gareth.nomiddlename@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/log4js-node/gelf.git"
+  },
+  "bugs": {
+    "url": "http://github.com/log4js-node/gelf/issues"
+  },
+  "engines": {
+    "node": ">=4.0"
+  },
+  "scripts": {
+    "clean": "find test -type f ! -name '*.json' ! -name '*.js' ! -name '.eslintrc' -delete && rm *.log",
+    "prepush": "npm test",
+    "commitmsg": "validate-commit-msg",
+    "posttest": "npm run clean",
+    "pretest": "eslint 'lib/**/*.js' 'test/**/*.js'",
+    "test": "tap 'test/tap/**/*.js'",
+    "coverage": "tap 'test/tap/**/*.js' --cov",
+    "codecov": "tap 'test/tap/**/*.js' --cov --coverage-report=lcov && codecov"
+  },
+  "directories": {
+    "test": "test",
+    "lib": "lib"
+  },
+  "dependencies": {
+    "debug": "^3.1.0"
+  },
+  "devDependencies": {
+    "codecov": "^3.0.0",
+    "conventional-changelog": "^1.1.6",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-import-resolver-node": "^0.3.1",
+    "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3",
+    "nyc": "^11.3.0",
+    "@log4js-node/sandboxed-module": "^2.1.1",
+    "tap": "^10.7.3",
+    "validate-commit-msg": "^2.14.0"
+  },
+  "browser": {
+    "os": false
+  },
+  "config": {
+    "validate-commit-msg": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "example",
+        "perf",
+        "test",
+        "chore",
+        "revert"
+      ],
+      "warnOnFail": false,
+      "maxSubjectLength": 72,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "subject does not match subject pattern!",
+      "helpMessage": "\n# allowed type: feat, fix, docs, style, refactor, example, perf, test, chore, revert\n# subject no more than 50 chars\n# a body line no more than 72 chars"
+    }
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "lib/**/*.js"
+    ],
+    "require": [
+      "./test/sandbox-coverage"
+    ]
+  }
+}
