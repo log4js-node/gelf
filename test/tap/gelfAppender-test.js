@@ -4,6 +4,7 @@ const test = require('tap').test;
 const os = require('os');
 const util = require('util');
 const sandbox = require('@log4js-node/sandboxed-module');
+const appender = require('../../lib'); //eslint-disable-line
 
 const setupLogging = function (options, category, compressedLength) {
   const fakeDgram = {
