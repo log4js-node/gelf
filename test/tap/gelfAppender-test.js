@@ -1,8 +1,9 @@
-'use strict';
-
+/* eslint no-underscore-dangle:off */
+const debug = require('debug')('log4js:test.gelf');
 const test = require('tap').test;
+const os = require('os');
+const util = require('util');
 const sandbox = require('@log4js-node/sandboxed-module');
-const realLayouts = require('../../lib/layouts');
 
 const setupLogging = function (options, category, compressedLength) {
   const fakeDgram = {
@@ -57,13 +58,14 @@ const setupLogging = function (options, category, compressedLength) {
     layout: function (type, opt) {
       this.type = type;
       this.options = opt;
-      return realLayouts.messagePassThroughLayout;
+      return evt => util.format.apply(util, evt.data);
     },
-    messagePassThroughLayout: realLayouts.messagePassThroughLayout
+    messagePassThroughLayout: evt => util.format.apply(util, evt.data)
   };
 
-  const log4js = sandbox.require('../../lib/log4js', {
-    // singleOnly: true,
+  debug('process.cwd = ', process.cwd());
+
+  const log4js = sandbox.require('log4js', {
     requires: {
       dgram: fakeDgram,
       zlib: fakeZlib,
@@ -77,15 +79,17 @@ const setupLogging = function (options, category, compressedLength) {
           }
         },
         removeListener: () => {},
-        env: {},
+        env: process.env,
         stderr: process.stderr
       },
       console: fakeConsole
-    }
+    },
+    ignoreMissing: true
   });
 
   options = options || {};
-  options.type = 'gelf';
+  // weird path because running coverage messes with require.main.filename in log4js
+  options.type = '../../../lib';
 
   log4js.configure({
     appenders: { gelf: options },
@@ -123,7 +127,7 @@ test('log4js gelfAppender', (batch) => {
     const message = JSON.parse(setup.compress.uncompressed);
     t.test('the uncompressed log message should be in the gelf format', (assert) => {
       assert.equal(message.version, '1.1');
-      assert.equal(message.host, require('os').hostname());
+      assert.equal(message.host, os.hostname());
       assert.equal(message.level, 6); // INFO
       assert.equal(message.short_message, 'This is a test');
       assert.end();
