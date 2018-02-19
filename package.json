@@ -32,7 +32,7 @@
     "prepush": "npm test",
     "commitmsg": "validate-commit-msg",
     "pretest": "eslint 'lib/**/*.js' 'test/**/*.js'",
-    "test": "tap 'test/tap/**/*.js' --cov",
+    "test": "tap 'test/tap/**/*.js' --100",
     "codecov": "tap 'test/tap/**/*.js' --cov --coverage-report=lcov && codecov"
   },
   "directories": {
