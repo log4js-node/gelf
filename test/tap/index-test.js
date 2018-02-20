@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint no-underscore-dangle:off */
 const debug = require('debug')('log4js:test.gelf');
 const test = require('tap').test;
