@@ -1,4 +1,22 @@
 // Type definitions for GELF Appender for log4js
+import * as log4js from "log4js";
+
+declare module 'log4js' {
+    interface Logger {
+        trace(gelfData: GELF, message: string, ...args: any[]): void;
+        debug(gelfData: GELF, message: string, ...args: any[]): void;
+        info(gelfData: GELF, message: string, ...args: any[]): void;
+        warn(gelfData: GELF, message: string, ...args: any[]): void;
+        error(gelfData: GELF, message: string, ...args: any[]): void;
+        fatal(gelfData: GELF, message: string, ...args: any[]): void;
+    }
+}
+
+export interface GELF {
+    GELF: Boolean,
+    [key: string]: any
+}
+
 export interface GELFAppender {
 	'type': '@log4js-node/gelf';
 	// (defaults to localhost) - the gelf server hostname
