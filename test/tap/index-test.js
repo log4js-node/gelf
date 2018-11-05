@@ -273,6 +273,7 @@ test('log4js gelfAppender', (batch) => {
 
   batch.test('with custom fields options', (t) => {
     const setup = setupLogging({
+      appendCategory: 'module',
       host: 'somewhere',
       port: 12345,
       hostname: 'cheese',
@@ -309,6 +310,7 @@ test('log4js gelfAppender', (batch) => {
       assert.equal(message._facility, 'nonsense');
       assert.equal(message._every1, 'Hello every one'); // the default value
       assert.equal(message._every2, 'Overwritten!'); // the overwritten value
+      assert.equal(message._module, 'gelf-test');
       assert.equal(message._myField, 'This is my field!'); // the value for this message only
       assert.notOk(message.notThisOne); // should not be included
       assert.notOk(message._id); // should not be included
