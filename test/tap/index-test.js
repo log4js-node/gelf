@@ -53,6 +53,7 @@ const setupLogging = function (options, category, compressedLength) {
   let exitHandler;
 
   const fakeConsole = {
+    log: function () {},
     error: function (message) {
       this.message = message;
     }
@@ -77,6 +78,7 @@ const setupLogging = function (options, category, compressedLength) {
     },
     globals: {
       process: {
+        version: process.version,
         on: function (evt, handler) {
           if (evt === 'exit') {
             exitHandler = handler;
